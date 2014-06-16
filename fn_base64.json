@@ -1,0 +1,31 @@
+{
+    "EncodeExample" : { "Fn::Base64" : "AWS CloudFormation" },
+
+
+
+
+
+    "JoinExample"   : "Fn::Join" : [ " ", [ "This", "is", "a", "string" ] ],
+
+
+
+
+
+    "UserData" : { "Fn::Base64" : {
+                        "Fn::Join" : [
+                            "",
+                            [
+                                "#!/bin/bash -v\n",
+
+                                "exec 3>&1\n",
+                                "exec 1>>/var/log/cloud-init.log\n",
+                                "exec 2>>/var/log/cloud-init.log\n",
+
+                                "apt-get update && apt-get upgrade\n"
+                                "apt-get install apache2\n"
+
+                            ]
+                        ]
+                    }
+                }
+}
