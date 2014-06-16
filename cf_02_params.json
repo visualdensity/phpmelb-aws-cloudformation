@@ -1,0 +1,52 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "Generic Instance",
+
+    "Parameters" : {
+        "AMI" : {
+            "Description"           : "Instance AMI",
+            "Type"                  : "String",
+            "Default"               : "ami-ee4f77ab"
+        },
+        "InstanceType" : {
+            "Description"           : "EC2 instance type for PeazieWeb",
+            "Type"                  : "String",
+            "Default"               : "t1.micro"
+        },
+        "AvailabilityZone" : {
+            "Description"           : "Which availability zone to deploy this instance to",
+            "Type"                  : "String",
+            "Default"               : "us-west-1b"
+        },
+        "SecurityGroup" : {
+            "Description"           : "Which security group policy to apply",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        },
+        "KeyPair" : {
+            "Description"           : "Which keypair would you like to use",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        }
+
+    },
+
+    "Mappings" : {
+    },
+
+    "Resources" : {
+        "ServerInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId"          : { "Ref":"AMI" },
+                "KeyName"          : { "Ref":"KeyPair" },
+                "InstanceType"     : { "Ref":"InstanceType" },
+                "AvailabilityZone" : { "Ref":"AvailabilityZone" },
+                "SecurityGroups"   : [ { "Ref":"SecurityGroup"} ]
+            }
+        }
+    },
+
+    "Outputs" : {
+    }
+}

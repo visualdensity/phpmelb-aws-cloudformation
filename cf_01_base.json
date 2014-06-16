@@ -1,0 +1,26 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "Generic Instance",
+
+    "Parameters" : {
+    },
+
+    "Mappings" : {
+    },
+
+    "Resources" : {
+        "ServerInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId"          : "ami-ee4f77ab"  ,
+                "KeyName"          : "standard-dev"  ,
+                "InstanceType"     : "t1.micro"      ,
+                "AvailabilityZone" : "us-west-1b"    ,
+                "SecurityGroups"   : ["standard-dev"]
+            }
+        }
+    },
+
+    "Outputs" : {
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "Generic Instance",
+
+    "Parameters" : {
+        "Region" : {
+            "Type" : "String",
+            "Default" : "us-east-1",
+            "Description" : "Region code"
+        }
+    },
+
+    "Mappings" : {
+        "RegionMap" : {
+            "us-east-1" : {
+                "Name" : "US East (Northern Virginia) Region"
+            },
+            "us-west-1" : {
+                "AMI" : "US West (Northern California) Region"
+            },
+            "eu-west-1" : {
+                "AMI" : "EU (Ireland) Region"
+            },
+            "ap-southeast-1" : {
+                "AMI" : "Asia Pacific (Singapore) Region"
+            }
+        }
+    },
+
+    "Resources" : {
+        "ServerInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "ImageId"          : "ami-ee4f77ab"  ,
+                "KeyName"          : "standard-dev"  ,
+                "InstanceType"     : "t1.micro"      ,
+                "AvailabilityZone" : "us-west-1b"    ,
+                "SecurityGroups"   : ["standard-dev"]
+            }
+        }
+    },
+
+    "Outputs" : {
+        "PublicDns" : {
+            "Value" : { "Fn::GetAtt" : [ "ServerInstance", "PublicDnsName"] },
+            "Description" : "Server public DNS name"
+        }
+    }
+}

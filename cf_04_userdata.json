@@ -1,0 +1,85 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "Generic Instance",
+
+    "Parameters" : {
+        "Region" : {
+            "Description"           : "AWS Region",
+            "Type"                  : "String",
+            "Default"               : "us-west-1"
+        },
+        "InstanceType" : {
+            "Description"           : "EC2 instance type for PeazieWeb",
+            "Type"                  : "String",
+            "Default"               : "t1.micro"
+        },
+        "AvailabilityZone" : {
+            "Description"           : "Which availability zone to deploy this instance to",
+            "Type"                  : "String",
+            "Default"               : "us-west-1b"
+        },
+        "SecurityGroup" : {
+            "Description"           : "Which security group policy to apply",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        },
+        "KeyPair" : {
+            "Description"           : "Which keypair would you like to use",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        }
+
+    },
+
+    "Mappings" : {
+        "RegionMap" : {
+            "us-east-1" : {
+                "AMI" : "ami-018c9568"
+            },
+            "us-west-1" : {
+                "AMI" : "ami-ee4f77ab"
+            },
+            "eu-west-1" : {
+                "AMI" : "ami-896c96fe"
+            },
+            "ap-southeast-1" : {
+                "AMI" : "ami-9a7724c8"
+            }
+        }
+    },
+
+    "Resources" : {
+        "ServerInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+
+                "ImageId"          : { "Ref":"AMI" },
+                "KeyName"          : { "Ref":"KeyPair" },
+                "InstanceType"     : { "Ref":"InstanceType" },
+                "AvailabilityZone" : { "Ref":"AvailabilityZone" },
+                "SecurityGroups"   : [ { "Ref":"SecurityGroup"} ],
+
+                "UserData"         : { "Fn::Base64" : {
+                                            "Fn::Join" : [
+                                                "",
+                                                [
+                                                    "#!/bin/bash -v\n",
+
+                                                    "exec 3>&1\n",
+                                                    "exec 1>>/var/log/cloud-init.log\n",
+                                                    "exec 2>>/var/log/cloud-init.log\n",
+
+                                                    "apt-get update && apt-get upgrade\n"
+                                                    "apt-get install apache2\n"
+
+                                                ]
+                                            ]
+                                        }
+                                     }
+            }
+        }
+    },
+
+    "Outputs" : {
+    }
+}

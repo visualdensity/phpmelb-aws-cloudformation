@@ -1,0 +1,67 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "Generic Instance",
+
+    "Parameters" : {
+        "Region" : {
+            "Description"           : "AWS Region",
+            "Type"                  : "String",
+            "Default"               : "us-west-1"
+        },
+        "InstanceType" : {
+            "Description"           : "EC2 instance type for PeazieWeb",
+            "Type"                  : "String",
+            "Default"               : "t1.micro"
+        },
+        "AvailabilityZone" : {
+            "Description"           : "Which availability zone to deploy this instance to",
+            "Type"                  : "String",
+            "Default"               : "us-west-1b"
+        },
+        "SecurityGroup" : {
+            "Description"           : "Which security group policy to apply",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        },
+        "KeyPair" : {
+            "Description"           : "Which keypair would you like to use",
+            "Type"                  : "String",
+            "Default"               : "standard-dev"
+        }
+
+    },
+
+    "Mappings" : {
+        "RegionMap" : {
+            "us-east-1" : {
+                "AMI" : "ami-018c9568"
+            },
+            "us-west-1" : {
+                "AMI" : "ami-ee4f77ab"
+            },
+            "eu-west-1" : {
+                "AMI" : "ami-896c96fe"
+            },
+            "ap-southeast-1" : {
+                "AMI" : "ami-9a7724c8"
+            }
+        }
+    },
+
+    "Resources" : {
+        "ServerInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+
+                "ImageId"          : { "Fn::FindInMap": ["RegionMap", { "Ref":"Region" }, "AMI"] },
+                "KeyName"          : { "Ref":"KeyPair" },
+                "InstanceType"     : { "Ref":"InstanceType" },
+                "AvailabilityZone" : { "Ref":"AvailabilityZone" },
+                "SecurityGroups"   : [ { "Ref":"SecurityGroup"} ]
+            }
+        }
+    },
+
+    "Outputs" : {
+    }
+}
