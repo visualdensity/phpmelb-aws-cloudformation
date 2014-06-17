@@ -53,7 +53,7 @@
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
 
-		"ImageId"          : { "Fn::FindInMap": ["RegionMap", { "Ref":"Region" }, "AMI"] },
+                "ImageId"          : { "Fn::FindInMap": ["RegionMap", { "Ref":"Region" }, "AMI"] },
                 "KeyName"          : { "Ref":"KeyPair" },
                 "InstanceType"     : { "Ref":"InstanceType" },
                 "AvailabilityZone" : { "Ref":"AvailabilityZone" },
@@ -69,8 +69,8 @@
                                                     "exec 1>>/var/log/cloud-init.log\n",
                                                     "exec 2>>/var/log/cloud-init.log\n",
 
-						    "apt-get update && apt-get upgrade\n",
-                                                    "apt-get install apache2\n"
+                                                    "apt-get update && apt-get -q -y upgrade\n",
+                                                    "apt-get -q -y install apache2\n"
                                                 ]
                                             ]
                                         }
